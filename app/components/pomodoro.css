@@ -1,9 +1,5 @@
-h2 {
-  filter: drop-shadow(5px 5px 0px #ffffff40);
-}
-
 button {
-  @apply items-center justify-center rounded-sm bg-white/25 p-2 transition-all duration-150 hover:font-semibold hover:shadow-box;
+  @apply hover:shadow-box items-center justify-center rounded-sm bg-white/25 p-2 transition-all duration-150 hover:font-semibold;
 }
 
 .pomodoro {

@@ -94,7 +94,7 @@ export default function Pomodoro() {
       <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
       <div className="w-full max-w-xl rounded-sm bg-white/25 p-8">
         <div className="relative flex w-full items-center justify-center">
-          <h2 className="drop-shadow-title text-center text-9xl font-bold">
+          <h2 className="drop-shadow-timer text-center text-9xl font-bold">
             {`${current_minute}:${current_second < 10 ? `0${current_second}` : current_second}`}
           </h2>
           <button
