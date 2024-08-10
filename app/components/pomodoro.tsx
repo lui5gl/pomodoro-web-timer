@@ -3,6 +3,7 @@
 import Image from "next/image";
 import "@/app/components/pomodoro.css";
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 export default function Pomodoro() {
   const color_theme = useRef<HTMLDivElement>(null);
@@ -94,7 +95,7 @@ export default function Pomodoro() {
       <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
       <div className="w-full max-w-xl rounded-sm bg-white/25 p-8">
         <div className="relative flex w-full items-center justify-center">
-          <h2 className="drop-shadow-timer text-center text-9xl font-bold">
+          <h2 className="text-center text-9xl font-bold drop-shadow-timer">
             {`${current_minute}:${current_second < 10 ? `0${current_second}` : current_second}`}
           </h2>
           <button
@@ -141,6 +142,15 @@ export default function Pomodoro() {
         src="sound/alarm.wav"
         preload="auto"
       />
+
+{/*  */}
+      <Link
+        href={"https://github.com/lui5gl/pomodoro-web-timer"}
+        target="_blank"
+        className="absolute bottom-5 right-5 rounded-sm bg-white/25 p-2 hover:shadow-box active:translate-x-1 active:translate-y-1 active:shadow-none"
+      >
+        <Image src={"/icon/github.svg"} alt="reset" width={25} height={25} />
+      </Link>
     </section>
   );
 }
