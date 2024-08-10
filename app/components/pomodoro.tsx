@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import "@app/components/pomodoro.css";
-import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import React, { useState, useEffect, useRef } from "react";
+
+import "@app/components/pomodoro.css";
 
 export default function Pomodoro() {
   const color_theme = useRef<HTMLDivElement>(null);
