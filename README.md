@@ -22,11 +22,11 @@ The Pomodoro Timer is a productivity tool designed to help you manage your time 
 
 ### Short Break
 
-![Image of short break](/public/img/pomodoro_short_break.png)
+![Image of short break](/public/img/short_break.png)
 
 ### Long Break
 
-![Image of long break](/public/img/pomodoro_long_break.png)
+![Image of long break](/public/img/long_break.png)
 
 ## Getting Started
 
