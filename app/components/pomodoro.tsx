@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import "pomodoro.module.css";
+import "@/app/components/pomodoro.css";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function Pomodoro() {
