@@ -1,0 +1,30 @@
+h2 {
+  filter: drop-shadow(5px 5px 0px #ffffff40);
+}
+
+button {
+  @apply items-center justify-center rounded-sm bg-white/25 p-2 transition-all duration-150 hover:font-semibold hover:shadow-box;
+}
+
+.pomodoro {
+  @apply from-rose-500 to-red-800;
+
+  #button-pomodoro {
+    @apply shadow-box;
+  }
+}
+
+.short-break {
+  @apply from-sky-500 to-blue-800;
+  #button-short-break {
+    @apply shadow-box;
+  }
+}
+
+.long-break {
+  @apply from-lime-500 to-green-800;
+
+  #button-long-break {
+    @apply shadow-box;
+  }
+}
