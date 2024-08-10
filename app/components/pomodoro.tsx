@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import "@/app/components/pomodoro.css";
+import "@app/components/pomodoro.css";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 

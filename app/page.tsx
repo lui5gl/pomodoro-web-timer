@@ -1,4 +1,4 @@
-import Pomodoro from "./components/pomodoro";
+import Pomodoro from "@app/components/pomodoro";
 
 export default function Home() {
   return (
