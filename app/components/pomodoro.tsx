@@ -143,7 +143,6 @@ export default function Pomodoro() {
         preload="auto"
       />
 
-{/*  */}
       <Link
         href={"https://github.com/lui5gl/pomodoro-web-timer"}
         target="_blank"
