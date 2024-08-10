@@ -1,4 +1,4 @@
-# Pomodoro Timer
+# Pomodoro Web Timer
 
 A simple pomodoro timer that helps you stay focused and productive.
 
