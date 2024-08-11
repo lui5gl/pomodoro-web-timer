@@ -26,7 +26,7 @@ export default function Pomodoro() {
           if (current_minute === 0) {
             clearInterval(intervalId);
             if (notification_sound.current) {
-              notification_sound.current;
+              notification_sound.current.play();
             }
           } else {
             setCurrentMinute(current_minute - 1);
