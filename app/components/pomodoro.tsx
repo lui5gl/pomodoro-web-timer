@@ -17,14 +17,9 @@ export default function Pomodoro() {
   const [is_running, setIsRunning] = useState(false);
   const [state_timer, setStateTimer] = useState("pomodoro");
 
-  // Set the title of the page to the current time
-  useEffect(() => {
-    document.title = `${current_minute}:${current_second < 10 ? `0${current_second}` : current_second} - Pomodoro Web Timer`;
-  }, [current_minute, current_second]);
-
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
+    
     if (is_running) {
       intervalId = setInterval(() => {
         if (current_second === 0) {
@@ -42,7 +37,7 @@ export default function Pomodoro() {
         }
       }, 1000);
     }
-
+    document.title = `${current_minute}:${current_second < 10 ? `0${current_second}` : current_second} - Pomodoro Web Timer`;
     return () => clearInterval(intervalId);
   }, [is_running, current_minute, current_second]);
 
