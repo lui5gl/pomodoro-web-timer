@@ -19,7 +19,7 @@ export default function Pomodoro() {
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-    
+
     if (is_running) {
       intervalId = setInterval(() => {
         if (current_second === 0) {
