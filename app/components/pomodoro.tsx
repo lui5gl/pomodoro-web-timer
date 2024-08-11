@@ -84,12 +84,12 @@ export default function Pomodoro() {
   }
 
   return (
-    <section
+    <main
       ref={color_theme}
       className="pomodoro flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-b p-5 text-white"
     >
       <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
-      <div className="w-full max-w-xl rounded-sm bg-white/25 p-8">
+      <section className="w-full max-w-xl rounded-sm bg-white/25 p-8">
         <div className="relative flex w-full items-center justify-center">
           <h2 className="text-center text-9xl font-bold drop-shadow-timer">
             {`${current_minute}:${current_second < 10 ? `0${current_second}` : current_second}`}
@@ -130,22 +130,18 @@ export default function Pomodoro() {
             Long Break
           </button>
         </div>
-      </div>
+      </section>
+
       {/* Notification end task */}
-      <audio
-        ref={notification_sound}
-        id="audio"
-        src="sound/alarm.wav"
-        preload="auto"
-      />
+      <audio ref={notification_sound} src="/sound/alarm.wav" preload="auto" />
 
       <Link
         href={"https://github.com/lui5gl/pomodoro-web-timer"}
         target="_blank"
         className="absolute bottom-5 right-5 rounded-sm bg-white/25 p-2 hover:shadow-box active:translate-x-1 active:translate-y-1 active:shadow-none"
       >
-        <Image src={"/icon/github.svg"} alt="reset" width={25} height={25} />
+        <Image src={"/icon/github.svg"} alt="GitHub" width={25} height={25} />
       </Link>
-    </section>
+    </main>
   );
 }
