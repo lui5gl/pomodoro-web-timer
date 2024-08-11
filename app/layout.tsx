@@ -7,7 +7,7 @@ const onest = Onest({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Pomodoro Web Timer",
   description:
-    "Maximiza tu productividad y gestiona tu tiempo de manera efectiva con Pomodoro Timer. Basada en la técnica Pomodoro, nuestra aplicación te ayuda a concentrarte en tus tareas dividiendo tu trabajo en intervalos de 25 minutos seguidos de cortos descansos. Con una interfaz intuitiva y fácil de usar, Pomodoro Timer te permite iniciar sesiones de trabajo con un solo clic y te notifica cuando es momento de descansar. Personaliza tus intervalos de trabajo y descanso según tus necesidades, y observa cómo tu productividad se dispara con el seguimiento de sesiones y estadísticas detalladas. Pomodoro Timer es tu herramienta esencial para lograr más en menos tiempo, manteniendo un equilibrio saludable entre trabajo y descanso. ¡Optimiza tu día con Pomodoro Timer y alcanza tus metas de manera eficiente y tranquila! ",
+    "Maximize your productivity and manage your time effectively with Pomodoro Timer. Based on the Pomodoro Technique, our app helps you focus on your tasks by dividing your work into 25-minute intervals followed by short breaks. With an intuitive and user-friendly interface, Pomodoro Timer allows you to start work sessions with just one click and notifies you when it's time to take a break. Customize your work and break intervals according to your needs, and watch your productivity soar with session tracking and detailed statistics. Pomodoro Timer is your essential tool to achieve more in less time while maintaining a healthy balance between work and rest. Optimize your day with Pomodoro Timer and reach your goals efficiently and calmly!",
 };
 
 export default function RootLayout({
