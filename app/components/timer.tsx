@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
 
 import "@app/components/timer.css";
 
@@ -7,8 +7,8 @@ export default function Timer({
   notification_sound,
   color_theme,
 }: {
-  notification_sound: any;
-  color_theme: any;
+  notification_sound: RefObject<HTMLAudioElement>;
+  color_theme: RefObject<HTMLDivElement>;
 }) {
   const reset_button = useRef<HTMLButtonElement>(null);
 
