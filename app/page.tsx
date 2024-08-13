@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <main
       ref={color_theme}
-      className="pomodoro flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-b p-5 text-white"
+      className="flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-b p-5 text-white"
     >
       <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
 
