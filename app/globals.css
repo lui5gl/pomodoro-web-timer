@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 button {
-  @apply items-center justify-center rounded-sm bg-white/25 p-2 transition-all duration-150 hover:font-semibold hover:shadow-box;
+  @apply rounded-sm bg-white/25 p-2 transition-all duration-75 hover:font-semibold hover:shadow-box;
 }
 
 .pomodoro {
@@ -16,6 +16,7 @@ button {
 
 .short-break {
   @apply from-sky-500 to-blue-800;
+
   #button-short-break {
     @apply shadow-box;
   }
