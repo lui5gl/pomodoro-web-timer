@@ -18,15 +18,15 @@ The Pomodoro Timer is a productivity tool designed to help you manage your time 
 
 ### Pomodoro
 
-![Image of pomodoro](/public/img/pomodoro.png)
+![Image of pomodoro](/docs/imgs/pomodoro.png)
 
 ### Short Break
 
-![Image of short break](/public/img/short_break.png)
+![Image of short break](/docs/imgs/short_break.png)
 
 ### Long Break
 
-![Image of long break](/public/img/long_break.png)
+![Image of long break](/docs/imgs/long_break.png)
 
 ## Getting Started
 
