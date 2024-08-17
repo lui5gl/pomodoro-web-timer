@@ -1,11 +1,5 @@
 import Image from "next/image";
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  RefObject,
-  useCallback,
-} from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 export default function Timer({
   notification_sound,
