@@ -2,116 +2,107 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const color_theme = useRef<HTMLDivElement>(null);
-  const notification_sound = useRef<HTMLAudioElement>(null);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
-  const [is_running, setIsRunning] = useState(false);
-  const [current_minute, setCurrentMinute] = useState(0);
-  const [current_second, setCurrentSecond] = useState(0);
-  const reset_time_button = useRef<HTMLButtonElement>(null);
+  const [isRunning, setIsRunning] = useState(true);
+  const [state, setState] = useState(
+    localStorage.getItem("state_timer") ?? "pomodoro",
+  );
+
+  const colorTheme = useRef<HTMLDivElement>(null);
+  const resetTimerBtn = useRef<HTMLButtonElement>(null);
+  const notificatonSoundRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
-    if (is_running) {
+    if (isRunning) {
       intervalId = setInterval(() => {
-        if (current_second === 0) {
-          if (current_minute === 0) {
+        if (seconds === 0) {
+          if (minutes === 0) {
             clearInterval(intervalId);
-            if (notification_sound.current) {
-              notification_sound.current.play();
+            if (notificatonSoundRef.current) {
+              notificatonSoundRef.current.play();
             }
           } else {
-            setCurrentMinute(current_minute - 1);
-            setCurrentSecond(59);
+            setMinutes((prevMinutes) => prevMinutes - 1);
+            setSeconds(59);
           }
         } else {
-          setCurrentSecond(current_second - 1);
+          setSeconds((prevSeconds) => prevSeconds - 1);
         }
       }, 1000);
     }
-    document.title = `${current_minute}:${current_second < 10 ? `0${current_second}` : current_second} - Pomodoro Web Timer`;
-    return () => clearInterval(intervalId);
-  }, [is_running, current_minute, current_second, notification_sound]);
 
-  function handleIsRunningToggle() {
-    setIsRunning(!is_running);
-    reset_time_button.current?.classList.remove("hidden");
+    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
+    return () => clearInterval(intervalId);
+  }, [isRunning, minutes, seconds]);
+
+  function handleToggleIsRunning() {
+    setIsRunning(!isRunning);
+    resetTimerBtn.current?.classList.remove("hidden");
   }
 
   function handleReset() {
-    setIsRunning(false);
-
-    let current_status = localStorage.getItem("state_timer");
-
-    if (current_status !== null) {
-      handleChangeState(current_status);
-    }
-    reset_time_button.current?.classList.add("hidden");
+    handleChangeState(state);
+    resetTimerBtn.current?.classList.add("hidden");
   }
 
-  const handleChangeState: any = useCallback(
-    (state: string) => {
-      reset_time_button.current?.classList.add("hidden");
+  const handleChangeState = (state: string) => {
+    setIsRunning(false);
+    resetTimerBtn.current?.classList.add("hidden");
 
-      localStorage.setItem("state_timer", state);
-      setIsRunning(false);
+    setState(state);
+    localStorage.setItem("state_timer", state);
 
-      color_theme.current?.classList.remove(
-        "pomodoro",
-        "short-break",
-        "long-break",
-      );
+    colorTheme.current?.classList.remove(
+      "pomodoro",
+      "short-break",
+      "long-break",
+    );
 
-      color_theme.current?.classList.add(state);
+    colorTheme.current?.classList.add(state);
 
-      switch (state) {
-        case "pomodoro":
-          setCurrentMinute(25);
-          setCurrentSecond(0);
-          break;
+    switch (state) {
+      case "pomodoro":
+        setMinutes(25);
+        setSeconds(0);
+        break;
 
-        case "short-break":
-          setCurrentMinute(5);
-          setCurrentSecond(0);
-          break;
+      case "short-break":
+        setMinutes(5);
+        setSeconds(0);
+        break;
 
-        case "long-break":
-          setCurrentMinute(15);
-          setCurrentSecond(0);
-          break;
-      }
-    },
-    [color_theme],
-  );
+      case "long-break":
+        setMinutes(15);
+        setSeconds(0);
+        break;
+    }
+  };
 
   useEffect(() => {
-    const theme_current = localStorage.getItem("state_timer");
-
-    if (theme_current === null) {
-      localStorage.setItem("state_timer", "pomodoro");
-    }
-
-    handleChangeState(theme_current ?? "pomodoro");
-  }, [color_theme, handleChangeState]);
+    handleChangeState(state);
+  }, [state]);
 
   return (
     <main
-      ref={color_theme}
+      ref={colorTheme}
       className="flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-b p-5 text-white"
     >
       <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
-
       <section className="w-full max-w-xl rounded-sm bg-white/25 p-8">
         <div className="relative flex w-full items-center justify-center">
           <h2 className="text-center text-9xl font-bold drop-shadow-timer">
-            {`${current_minute}:${current_second < 10 ? `0${current_second}` : current_second}`}
+            {minutes.toString().padStart(2, "0")}:
+            {seconds.toString().padStart(2, "0")}
           </h2>
           <button
-            ref={reset_time_button}
+            ref={resetTimerBtn}
             onClick={handleReset}
             className="absolute right-0 hidden place-self-center transition-all duration-150"
           >
@@ -119,12 +110,8 @@ export default function Home() {
           </button>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          <button
-            id="playButton"
-            onClick={handleIsRunningToggle}
-            className="col-span-3"
-          >
-            {is_running ? "Stop" : "Start"}
+          <button onClick={handleToggleIsRunning} className="col-span-3">
+            {isRunning ? "Stop" : "Start"}
           </button>
 
           <button
@@ -148,7 +135,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Link to repository hosted on GitHub */}
       <Link
         href={"https://github.com/lui5gl/pomodoro-web-timer"}
         target="_blank"
@@ -157,8 +143,7 @@ export default function Home() {
         <Image src={"/icon/github.svg"} alt="GitHub" width={25} height={25} />
       </Link>
 
-      {/* Notification end task */}
-      <audio ref={notification_sound} src="/sound/alarm.wav" preload="auto" />
+      <audio ref={notificatonSoundRef} src="/sound/alarm.wav" preload="auto" />
     </main>
   );
 }
