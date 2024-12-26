@@ -8,10 +8,8 @@ export default function Home() {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
+  const [state, setState] = useState<string>();
   const [isRunning, setIsRunning] = useState(true);
-  const [state, setState] = useState(
-    localStorage.getItem("state_timer") ?? "pomodoro",
-  );
 
   const colorTheme = useRef<HTMLDivElement>(null);
   const resetTimerBtn = useRef<HTMLButtonElement>(null);
@@ -48,7 +46,7 @@ export default function Home() {
   }
 
   function handleReset() {
-    handleChangeState(state);
+    handleChangeState(state ?? "pomodoro");
     resetTimerBtn.current?.classList.add("hidden");
   }
 
@@ -86,7 +84,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    handleChangeState(state);
+    const current_state = localStorage.getItem("state_timer");
+    handleChangeState(current_state ?? "pomodoro");
   }, [state]);
 
   return (
