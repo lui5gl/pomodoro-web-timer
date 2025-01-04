@@ -1,61 +1,75 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-
-  const [state, setState] = useState<string>();
-  const [isRunning, setIsRunning] = useState(true);
-
   const colorTheme = useRef<HTMLDivElement>(null);
   const resetTimerBtn = useRef<HTMLButtonElement>(null);
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
 
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+  const [minutes, setMinutes] = useState<number>(25);
+  const [seconds, setSeconds] = useState<number>(0);
+  const [state, setState] = useState<string>();
+  const [isRunning, setIsRunning] = useState(false);
+  const [startTime, setStartTime] = useState<number | null>(null);
 
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const theme = localStorage.getItem("state") || "pomodoro";
+
+    if (!localStorage.getItem("state")) localStorage.setItem("state", theme);
+
+    handleChangeState(theme);
+    colorTheme.current?.classList.add(theme);
+  }, []);
+
+  useEffect(() => {
     if (isRunning) {
-      intervalId = setInterval(() => {
-        if (seconds === 0) {
-          if (minutes === 0) {
-            clearInterval(intervalId);
-            if (notificationSoundRef.current) {
-              notificationSoundRef.current.play();
-            }
-          } else {
-            setMinutes((prevMinutes) => prevMinutes - 1);
-            setSeconds(59);
-          }
-        } else {
-          setSeconds((prevSeconds) => prevSeconds - 1);
+      const endTime = Date.now() + (minutes * 60 + seconds) * 1000;
+
+      intervalRef.current = setInterval(() => {
+        const remainingTime = endTime - Date.now();
+
+        if (remainingTime <= 0) {
+          notificationSoundRef.current?.play();
+          setIsRunning(false);
+          setMinutes(0);
+          setSeconds(0);
+          clearInterval(intervalRef.current!);
+          return;
         }
+
+        const newMinutes = Math.floor(remainingTime / 60000);
+        const newSeconds = Math.floor((remainingTime % 60000) / 1000);
+
+        setMinutes(newMinutes);
+        setSeconds(newSeconds);
       }, 1000);
+    } else {
+      clearInterval(intervalRef.current!);
     }
 
-    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
-    return () => clearInterval(intervalId);
-  }, [isRunning, minutes, seconds]);
+    return () => clearInterval(intervalRef.current!);
+  }, [isRunning]);
 
-  function handleToggleIsRunning() {
-    setIsRunning(!isRunning);
-    resetTimerBtn.current?.classList.remove("hidden");
-  }
-
-  function handleReset() {
+  const handleReset = () => {
     handleChangeState(state ?? "pomodoro");
     resetTimerBtn.current?.classList.add("hidden");
-  }
+  };
+
+  const handleToggleIsRunning = () => {
+    setIsRunning(!isRunning);
+    if (!isRunning) {
+      setStartTime(Date.now());
+    }
+    resetTimerBtn.current?.classList.toggle("hidden");
+  };
 
   const handleChangeState = (state: string) => {
-    setIsRunning(false);
-    resetTimerBtn.current?.classList.add("hidden");
-
     setState(state);
-    localStorage.setItem("state_timer", state);
+    localStorage.setItem("state", state);
 
     colorTheme.current?.classList.remove(
       "pomodoro",
@@ -63,30 +77,37 @@ export default function Home() {
       "long-break",
     );
 
+    resetTimerBtn.current?.classList.add("hidden");
+
     colorTheme.current?.classList.add(state);
+
+    let minutes: number;
+    let seconds: number;
 
     switch (state) {
       case "pomodoro":
-        setMinutes(25);
-        setSeconds(0);
+        minutes = 25;
+        seconds = 0;
         break;
-
       case "short-break":
-        setMinutes(5);
-        setSeconds(0);
+        minutes = 5;
+        seconds = 0;
         break;
-
       case "long-break":
-        setMinutes(15);
-        setSeconds(0);
+        minutes = 15;
+        seconds = 0;
+        break;
+      default:
+        minutes = 25;
+        seconds = 0;
         break;
     }
-  };
 
-  useEffect(() => {
-    const current_state = localStorage.getItem("state_timer");
-    handleChangeState(current_state ?? "pomodoro");
-  }, [state]);
+    setIsRunning(false);
+    setMinutes(minutes);
+    setSeconds(seconds);
+    setStartTime(null);
+  };
 
   return (
     <main
