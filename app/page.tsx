@@ -13,7 +13,7 @@ export default function Home() {
 
   const colorTheme = useRef<HTMLDivElement>(null);
   const resetTimerBtn = useRef<HTMLButtonElement>(null);
-  const notificatonSoundRef = useRef<HTMLAudioElement>(null);
+  const notificationSoundRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -23,8 +23,8 @@ export default function Home() {
         if (seconds === 0) {
           if (minutes === 0) {
             clearInterval(intervalId);
-            if (notificatonSoundRef.current) {
-              notificatonSoundRef.current.play();
+            if (notificationSoundRef.current) {
+              notificationSoundRef.current.play();
             }
           } else {
             setMinutes((prevMinutes) => prevMinutes - 1);
@@ -134,7 +134,7 @@ export default function Home() {
         </div>
       </section>
 
-      <audio ref={notificatonSoundRef} src="/sound/alarm.wav" preload="auto" />
+      <audio ref={notificationSoundRef} src="/sound/alarm.wav" preload="auto" />
     </main>
   );
 }
