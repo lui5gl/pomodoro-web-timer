@@ -47,12 +47,14 @@ export default function Home() {
         setMinutes(newMinutes);
         setSeconds(newSeconds);
       }, 1000);
-    } else {
-      clearInterval(intervalRef.current!);
-    }
+    } else clearInterval(intervalRef.current!);
 
     return () => clearInterval(intervalRef.current!);
   }, [isRunning]);
+
+  useEffect(() => {
+    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
+  }, [minutes, seconds]);
 
   const handleReset = () => {
     handleChangeState(state ?? "pomodoro");
