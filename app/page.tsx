@@ -43,6 +43,7 @@ export default function Home() {
 
         const newMinutes = Math.floor(remainingTime / 60000);
         const newSeconds = Math.floor((remainingTime % 60000) / 1000);
+        document.title = `${newMinutes.toString().padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
 
         setMinutes(newMinutes);
         setSeconds(newSeconds);
@@ -51,10 +52,6 @@ export default function Home() {
 
     return () => clearInterval(intervalRef.current!);
   }, [isRunning]);
-
-  useEffect(() => {
-    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
-  }, [minutes, seconds]);
 
   const handleReset = () => {
     handleChangeState(state ?? "pomodoro");
