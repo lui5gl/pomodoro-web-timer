@@ -134,14 +134,6 @@ export default function Home() {
         </div>
       </section>
 
-      <Link
-        href={"https://github.com/lui5gl/pomodoro-web-timer"}
-        target="_blank"
-        className="absolute bottom-5 right-5 rounded-sm bg-white/25 p-2 transition-all duration-150 hover:shadow-box active:translate-x-1 active:translate-y-1 active:shadow-none"
-      >
-        <Image src={"/icon/github.svg"} alt="GitHub" width={25} height={25} />
-      </Link>
-
       <audio ref={notificatonSoundRef} src="/sound/alarm.wav" preload="auto" />
     </main>
   );
