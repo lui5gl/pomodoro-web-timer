@@ -97,13 +97,12 @@ export default function Home() {
       <section className="w-full max-w-xl rounded-sm bg-white/25 p-8">
         <div className="relative flex w-full items-center justify-center">
           <h2 className="text-center text-9xl font-bold drop-shadow-timer">
-            {minutes.toString().padStart(2, "0")}:
-            {seconds.toString().padStart(2, "0")}
+            {`${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
           </h2>
           <button
             ref={resetTimerBtn}
             onClick={handleReset}
-            className="absolute right-0 hidden place-self-center transition-all duration-150"
+            className="absolute right-0 hidden place-self-center"
           >
             <Image src={"/icon/arrow.svg"} alt="reset" width={18} height={18} />
           </button>
