@@ -111,7 +111,7 @@ export default function Home() {
   return (
     <main
       ref={colorTheme}
-      className="flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-b p-5 text-white"
+      className="flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-br p-5 text-white"
     >
       <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
       <section className="grid w-full max-w-xl grid-cols-3 gap-2 rounded-sm bg-white/25 p-8">
