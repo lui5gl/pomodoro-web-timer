@@ -7,7 +7,7 @@ button {
 }
 
 .pomodoro {
-  @apply from-rose-500 to-red-800;
+  @apply from-red-400 to-red-900;
 
   #button-pomodoro {
     @apply shadow-box;
@@ -15,7 +15,7 @@ button {
 }
 
 .short-break {
-  @apply from-sky-500 to-blue-800;
+  @apply from-yellow-400 to-amber-900;
 
   #button-short-break {
     @apply shadow-box;
@@ -23,7 +23,7 @@ button {
 }
 
 .long-break {
-  @apply from-lime-500 to-green-800;
+  @apply from-lime-400 to-green-900;
 
   #button-long-break {
     @apply shadow-box;
