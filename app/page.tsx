@@ -107,7 +107,7 @@ export default function Home() {
   return (
     <main
       ref={colorTheme}
-      className="flex min-h-screen select-none flex-col items-center justify-center bg-gradient-to-br p-10 text-white"
+      className="flex min-h-screen select-none flex-col items-center justify-center bg-gradient-to-b p-10 text-white"
     >
       <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
         <span>{minutes.toString().padStart(2, "0")}</span>
