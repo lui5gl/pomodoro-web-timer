@@ -55,7 +55,6 @@ export default function Home() {
 
   const handleReset = () => {
     handleChangeState(state ?? "pomodoro");
-    resetTimerBtn.current?.classList.add("hidden");
   };
 
   const handleToggleIsRunning = () => {
@@ -63,7 +62,6 @@ export default function Home() {
     if (!isRunning) {
       setStartTime(Date.now());
     }
-    resetTimerBtn.current?.classList.toggle("hidden");
   };
 
   const handleChangeState = (state: string) => {
@@ -75,8 +73,6 @@ export default function Home() {
       "short-break",
       "long-break",
     );
-
-    resetTimerBtn.current?.classList.add("hidden");
 
     colorTheme.current?.classList.add(state);
 
@@ -111,46 +107,49 @@ export default function Home() {
   return (
     <main
       ref={colorTheme}
-      className="flex min-h-svh select-none flex-col items-center justify-center gap-2 bg-gradient-to-br p-5 text-white"
+      className="flex min-h-screen select-none flex-col items-center justify-center bg-gradient-to-br p-10 text-white"
     >
-      <h1 className="text-center text-5xl font-bold">Pomodoro</h1>
-      <section className="grid w-full max-w-xl grid-cols-3 gap-2 rounded-sm bg-white/25 p-8">
-        <div className="relative col-span-3 flex w-full items-center justify-center">
-          <h2 className="text-center text-9xl font-bold drop-shadow-timer">
-            {`${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
-          </h2>
-          <button
-            ref={resetTimerBtn}
-            onClick={handleReset}
-            className="absolute right-0 hidden place-self-center"
-          >
-            <Image src={"/icon/arrow.svg"} alt="reset" width={18} height={18} />
-          </button>
-        </div>
-
-        <button onClick={handleToggleIsRunning} className="col-span-3">
-          {isRunning ? "Stop" : "Start"}
-        </button>
-
-        <button
-          id="button-pomodoro"
-          onClick={() => handleChangeState("pomodoro")}
-        >
-          Pomodoro
-        </button>
-        <button
-          id="button-short-break"
-          onClick={() => handleChangeState("short-break")}
-        >
-          Short Break
-        </button>
-        <button
-          id="button-long-break"
-          onClick={() => handleChangeState("long-break")}
-        >
-          Long Break
-        </button>
+      <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
+        <span>{minutes.toString().padStart(2, "0")}</span>
+        <span>{seconds.toString().padStart(2, "0")}</span>
       </section>
+
+      <section className="flex w-full max-w-xs justify-center gap-2">
+        <button
+          onClick={handleToggleIsRunning}
+          className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
+        >
+          <Image
+            width={18}
+            height={18}
+            alt="Toggle start/stop"
+            src={`icon/${isRunning ? "pause" : "play"}.svg`}
+          />
+        </button>
+        <button
+          ref={resetTimerBtn}
+          onClick={handleReset}
+          className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
+        >
+          <Image
+            src={"icon/reset.svg"}
+            alt="Reset timer"
+            width={18}
+            height={18}
+          />
+        </button>
+        <select
+          onChange={(e) => handleChangeState(e.target.value)}
+          className="h-8 rounded-sm bg-white/25 px-2 font-bold text-white [&>option]:text-neutral-800"
+        >
+          <option value="pomodoro" defaultChecked>
+            Pomodoro
+          </option>
+          <option value="short-break">Short Break</option>
+          <option value="long-break">Long Break</option>
+        </select>
+      </section>
+
       <audio ref={notificationSoundRef} src="/sound/alarm.wav" preload="auto" />
     </main>
   );
