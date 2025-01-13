@@ -109,7 +109,7 @@ export default function Home() {
       ref={colorTheme}
       className="flex min-h-screen select-none flex-col items-center justify-center bg-gradient-to-b p-10 text-white"
     >
-      <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
+      <section className="flex flex-col -space-y-5 text-center text-9xl font-bold drop-shadow-hour">
         <span>{minutes.toString().padStart(2, "0")}</span>
         <span>{seconds.toString().padStart(2, "0")}</span>
       </section>
@@ -123,6 +123,7 @@ export default function Home() {
             width={18}
             height={18}
             alt="Toggle start/stop"
+            className="pointer-events-none"
             src={`icon/${isRunning ? "pause" : "play"}.svg`}
           />
         </button>
@@ -132,6 +133,7 @@ export default function Home() {
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
         >
           <Image
+            className="pointer-events-none"
             src={"icon/reset.svg"}
             alt="Reset timer"
             width={18}
