@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { Metadata } from "next";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -33,7 +34,6 @@ export default function Home() {
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
     const interval = setInterval(() => {
-      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
       if (!isRunning) return;
 
       if (seconds > 0) setSeconds((prev) => prev - 1);
@@ -44,6 +44,7 @@ export default function Home() {
         notificationSoundRef.current?.play();
         setIsRunning(false);
       }
+      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
     }, 1000);
 
     return () => clearInterval(interval);
