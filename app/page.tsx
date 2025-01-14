@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Metadata } from "next";
-import { metadata } from "./layout";
 
 export default function Home() {
   const [minutes, setMinutes] = useState<number>(25);
@@ -29,10 +27,6 @@ export default function Home() {
     setSeconds(0);
   }
 
-  useEffect(() => {
-    handleChangeState("pomodoro");
-  }, []);
-
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,7 +49,7 @@ export default function Home() {
   return (
     <main
       ref={colorTheme}
-      className="flex min-h-screen select-none flex-col items-center justify-center bg-gradient-to-b p-10 text-white"
+      className="pomodoro flex min-h-screen select-none flex-col items-center justify-center bg-gradient-to-b p-10 text-white"
     >
       <section className="flex flex-col -space-y-5 text-center text-9xl font-bold drop-shadow-hour">
         <span>{minutes.toString().padStart(2, "0")}</span>
