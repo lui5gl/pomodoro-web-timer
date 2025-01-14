@@ -7,16 +7,19 @@ export default function Home() {
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
 
-  const [state, setState] = useState<string>();
   const [isRunning, setIsRunning] = useState(false);
 
   const colorTheme = useRef<HTMLDivElement>(null);
-  function handleChangeState(newState: string) {
+  const state = useRef<HTMLSelectElement>(null);
+  function handleChangeState() {
     colorTheme.current?.classList.remove(
       "pomodoro",
       "short-break",
       "long-break",
     );
+
+    let newState = state.current?.value ?? "pomodoro";
+
     colorTheme.current?.classList.add(newState);
 
     setIsRunning(false);
@@ -70,7 +73,7 @@ export default function Home() {
           />
         </button>
         <button
-          onClick={() => handleChangeState(state ?? "pomodoro")}
+          onClick={() => handleChangeState()}
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
         >
           <Image
@@ -82,7 +85,8 @@ export default function Home() {
           />
         </button>
         <select
-          onChange={(e) => handleChangeState(e.target.value)}
+          ref={state}
+          onChange={(e) => handleChangeState()}
           className="h-8 rounded-sm bg-white/25 px-2 font-bold text-white [&>option]:text-neutral-800"
         >
           <option value="pomodoro" defaultChecked>
