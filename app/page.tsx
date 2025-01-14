@@ -124,7 +124,7 @@ export default function Home() {
             height={18}
             alt="Toggle start/stop"
             className="pointer-events-none"
-            src={`icon/${isRunning ? "pause" : "play"}.svg`}
+            src={`icons/${isRunning ? "pause" : "play"}.svg`}
           />
         </button>
         <button
@@ -134,7 +134,7 @@ export default function Home() {
         >
           <Image
             className="pointer-events-none"
-            src={"icon/reset.svg"}
+            src={"icons/reset.svg"}
             alt="Reset timer"
             width={18}
             height={18}
@@ -152,7 +152,7 @@ export default function Home() {
         </select>
       </section>
 
-      <audio ref={notificationSoundRef} src="/sound/alarm.wav" preload="auto" />
+      <audio ref={notificationSoundRef} src="/sounds/alarm.wav" preload="auto" />
     </main>
   );
 }
