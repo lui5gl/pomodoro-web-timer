@@ -2,107 +2,55 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { Metadata } from "next";
+import { metadata } from "./layout";
 
 export default function Home() {
-  const colorTheme = useRef<HTMLDivElement>(null);
-  const resetTimerBtn = useRef<HTMLButtonElement>(null);
-  const notificationSoundRef = useRef<HTMLAudioElement>(null);
-
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
+
   const [state, setState] = useState<string>();
   const [isRunning, setIsRunning] = useState(false);
-  const [startTime, setStartTime] = useState<number | null>(null);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const theme = localStorage.getItem("state") || "pomodoro";
-
-    if (!localStorage.getItem("state")) localStorage.setItem("state", theme);
-
-    handleChangeState(theme);
-    colorTheme.current?.classList.add(theme);
-  }, []);
-
-  useEffect(() => {
-    if (isRunning) {
-      const endTime = Date.now() + (minutes * 60 + seconds) * 1000;
-
-      intervalRef.current = setInterval(() => {
-        const remainingTime = endTime - Date.now();
-
-        if (remainingTime <= 0) {
-          notificationSoundRef.current?.play();
-          setIsRunning(false);
-          setMinutes(0);
-          setSeconds(0);
-          clearInterval(intervalRef.current!);
-          return;
-        }
-
-        const newMinutes = Math.floor(remainingTime / 60000);
-        const newSeconds = Math.floor((remainingTime % 60000) / 1000);
-        document.title = `${newMinutes.toString().padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
-
-        setMinutes(newMinutes);
-        setSeconds(newSeconds);
-      }, 1000);
-    } else clearInterval(intervalRef.current!);
-
-    return () => clearInterval(intervalRef.current!);
-  }, [isRunning]);
-
-  const handleReset = () => {
-    handleChangeState(state ?? "pomodoro");
-  };
-
-  const handleToggleIsRunning = () => {
-    setIsRunning(!isRunning);
-    if (!isRunning) {
-      setStartTime(Date.now());
-    }
-  };
-
-  const handleChangeState = (state: string) => {
-    setState(state);
-    localStorage.setItem("state", state);
-
+  const colorTheme = useRef<HTMLDivElement>(null);
+  function handleChangeState(newState: string) {
     colorTheme.current?.classList.remove(
       "pomodoro",
       "short-break",
       "long-break",
     );
-
-    colorTheme.current?.classList.add(state);
-
-    let minutes: number;
-    let seconds: number;
-
-    switch (state) {
-      case "pomodoro":
-        minutes = 25;
-        seconds = 0;
-        break;
-      case "short-break":
-        minutes = 5;
-        seconds = 0;
-        break;
-      case "long-break":
-        minutes = 15;
-        seconds = 0;
-        break;
-      default:
-        minutes = 25;
-        seconds = 0;
-        break;
-    }
+    colorTheme.current?.classList.add(newState);
 
     setIsRunning(false);
-    setMinutes(minutes);
-    setSeconds(seconds);
-    setStartTime(null);
-  };
+
+    if (newState === "pomodoro") setMinutes(25);
+    else if (newState === "short-break") setMinutes(5);
+    else if (newState === "long-break") setMinutes(15);
+    setSeconds(0);
+  }
+
+  useEffect(() => {
+    handleChangeState("pomodoro");
+  }, []);
+
+  const notificationSoundRef = useRef<HTMLAudioElement>(null);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isRunning) return;
+
+      if (seconds > 0) setSeconds((prev) => prev - 1);
+      else if (minutes > 0) {
+        setMinutes((prev) => prev - 1);
+        setSeconds(59);
+      } else {
+        notificationSoundRef.current?.play();
+        setIsRunning(false);
+      }
+      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRunning, seconds, minutes, notificationSoundRef]);
 
   return (
     <main
@@ -116,7 +64,7 @@ export default function Home() {
 
       <section className="flex w-full max-w-xs justify-center gap-2">
         <button
-          onClick={handleToggleIsRunning}
+          onClick={() => setIsRunning(!isRunning)}
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
         >
           <Image
@@ -128,8 +76,7 @@ export default function Home() {
           />
         </button>
         <button
-          ref={resetTimerBtn}
-          onClick={handleReset}
+          onClick={() => handleChangeState(state ?? "pomodoro")}
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
         >
           <Image
@@ -152,7 +99,11 @@ export default function Home() {
         </select>
       </section>
 
-      <audio ref={notificationSoundRef} src="/sounds/alarm.wav" preload="auto" />
+      <audio
+        ref={notificationSoundRef}
+        src="/sounds/alarm.wav"
+        preload="auto"
+      />
     </main>
   );
 }
