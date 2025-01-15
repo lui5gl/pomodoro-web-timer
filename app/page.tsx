@@ -28,6 +28,8 @@ export default function Home() {
     else if (newState === "short-break") setMinutes(5);
     else if (newState === "long-break") setMinutes(15);
     setSeconds(0);
+
+    document.title = "Pomodoro Web Timer";
   }
 
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
@@ -43,8 +45,8 @@ export default function Home() {
         notificationSoundRef.current?.play();
         setIsRunning(false);
       }
-      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
     }, 1000);
+    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
 
     return () => clearInterval(interval);
   }, [isRunning, seconds, minutes, notificationSoundRef]);
