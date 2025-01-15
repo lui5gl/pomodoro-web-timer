@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import type { Metadata } from "next";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -66,8 +65,8 @@ export default function Home() {
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all"
         >
           <Image
-            width={18}
-            height={18}
+            width={16}
+            height={16}
             alt="Toggle start/stop"
             className="pointer-events-none"
             src={`icons/${isRunning ? "pause" : "play"}.svg`}
@@ -81,8 +80,8 @@ export default function Home() {
             className="pointer-events-none"
             src={"icons/reset.svg"}
             alt="Reset timer"
-            width={18}
-            height={18}
+            width={16}
+            height={16}
           />
         </button>
         <select
