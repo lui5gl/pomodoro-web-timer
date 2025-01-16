@@ -11,7 +11,11 @@ export default function Home() {
 
   const colorTheme = useRef<HTMLDivElement>(null);
   const state = useRef<HTMLSelectElement>(null);
+
   function handleChangeState() {
+    setIsRunning(false);
+    document.title = "Pomodoro Web Timer";
+
     colorTheme.current?.classList.remove(
       "pomodoro",
       "short-break",
@@ -19,36 +23,31 @@ export default function Home() {
     );
 
     let newState = state.current?.value ?? "pomodoro";
-
     colorTheme.current?.classList.add(newState);
-
-    setIsRunning(false);
 
     if (newState === "pomodoro") setMinutes(25);
     else if (newState === "short-break") setMinutes(5);
     else if (newState === "long-break") setMinutes(15);
     setSeconds(0);
-
-    document.title = "Pomodoro Web Timer";
   }
 
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isRunning) return;
+    if (isRunning) {
+      const interval = setInterval(() => {
+        if (seconds > 0) setSeconds((prev) => prev - 1);
+        else if (minutes > 0) {
+          setMinutes((prev) => prev - 1);
+          setSeconds(59);
+        } else {
+          notificationSoundRef.current?.play();
+          setIsRunning(false);
+        }
+        document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
+      }, 1000);
 
-      if (seconds > 0) setSeconds((prev) => prev - 1);
-      else if (minutes > 0) {
-        setMinutes((prev) => prev - 1);
-        setSeconds(59);
-      } else {
-        notificationSoundRef.current?.play();
-        setIsRunning(false);
-      }
-      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
-    }, 1000);
-
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [isRunning, seconds, minutes, notificationSoundRef]);
 
   return (
