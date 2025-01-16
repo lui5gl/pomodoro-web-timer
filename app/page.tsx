@@ -88,7 +88,7 @@ export default function Home() {
         </button>
         <select
           ref={state}
-          onChange={(e) => handleChangeState()}
+          onChange={() => handleChangeState()}
           className="h-8 rounded-sm bg-white/25 px-2 font-bold text-white [&>option]:text-neutral-800"
         >
           <option value="pomodoro" defaultChecked>
