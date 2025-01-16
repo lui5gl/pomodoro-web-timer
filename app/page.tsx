@@ -45,8 +45,8 @@ export default function Home() {
         notificationSoundRef.current?.play();
         setIsRunning(false);
       }
+      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
     }, 1000);
-    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
 
     return () => clearInterval(interval);
   }, [isRunning, seconds, minutes, notificationSoundRef]);
