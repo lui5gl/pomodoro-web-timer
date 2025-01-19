@@ -32,6 +32,7 @@ export default function Home() {
   }
 
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
+
   useEffect(() => {
     if (isRunning) {
       const interval = setInterval(() => {
