@@ -45,13 +45,10 @@ export default function Home() {
           setIsRunning(false);
         }
       }, 1000);
+      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
       return () => clearInterval(interval);
     }
-  }, [isRunning, seconds, minutes, notificationSoundRef]);
-
-  useEffect(() => {
-    document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
-  }, [minutes, seconds]);
+  }, [isRunning, minutes, seconds, notificationSoundRef]);
 
   return (
     <main
@@ -76,7 +73,7 @@ export default function Home() {
           />
         </button>
         <button
-          onClick={() => handleChangeState()}
+          onClick={handleChangeState}
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all duration-150 hover:shadow-box active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
           <Image
@@ -88,7 +85,7 @@ export default function Home() {
         </button>
         <select
           ref={selectStateRef}
-          onChange={() => handleChangeState()}
+          onChange={handleChangeState}
           className="rounded-sm bg-white/25 px-2 transition-all duration-150 hover:shadow-box [&>option]:text-neutral-800"
         >
           <option value="pomodoro" defaultChecked>
