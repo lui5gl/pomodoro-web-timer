@@ -101,11 +101,7 @@ export default function Home() {
         </select>
       </section>
 
-      <audio
-        ref={notificationSoundRef}
-        src="/sounds/alarm.wav"
-        preload="auto"
-      />
+      <audio ref={notificationSoundRef} src="sounds/alarm.wav" preload="auto" />
     </main>
   );
 }
