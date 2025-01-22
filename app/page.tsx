@@ -10,7 +10,7 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
 
   const colorTheme = useRef<HTMLDivElement>(null);
-  const state = useRef<HTMLSelectElement>(null);
+  const selectStateRef = useRef<HTMLSelectElement>(null);
 
   function handleChangeState() {
     setIsRunning(false);
@@ -22,7 +22,7 @@ export default function Home() {
       "long-break",
     );
 
-    let newState = state.current?.value ?? "pomodoro";
+    let newState = selectStateRef.current?.value ?? "pomodoro";
     colorTheme.current?.classList.add(newState);
 
     if (newState === "pomodoro") setMinutes(25);
@@ -72,7 +72,6 @@ export default function Home() {
             width={16}
             height={16}
             alt="Toggle start/stop"
-            className="pointer-events-none"
             src={`icons/${isRunning ? "pause" : "play"}.svg`}
           />
         </button>
@@ -81,15 +80,14 @@ export default function Home() {
           className="flex h-8 w-8 items-center justify-center rounded-sm bg-white/25 transition-all duration-150 hover:shadow-box active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
           <Image
-            className="pointer-events-none"
-            src={"icons/reset.svg"}
+            src="icons/reset.svg"
             alt="Reset timer"
             width={16}
             height={16}
           />
         </button>
         <select
-          ref={state}
+          ref={selectStateRef}
           onChange={() => handleChangeState()}
           className="rounded-sm bg-white/25 px-2 transition-all duration-150 hover:shadow-box [&>option]:text-neutral-800"
         >
