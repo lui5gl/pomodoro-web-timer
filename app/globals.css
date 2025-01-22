@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .pomodoro {
-  @apply from-red-400 to-red-900;
+  @apply from-orange-500 to-red-900;
 
   #button-pomodoro {
     @apply shadow-box;
@@ -11,7 +11,7 @@
 }
 
 .short-break {
-  @apply from-sky-400 to-sky-900;
+  @apply from-sky-400 to-blue-900;
 
   #button-short-break {
     @apply shadow-box;
@@ -19,7 +19,7 @@
 }
 
 .long-break {
-  @apply from-lime-400 to-lime-800;
+  @apply from-lime-400 to-green-900;
 
   #button-long-break {
     @apply shadow-box;
