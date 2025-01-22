@@ -12,7 +12,7 @@ const config: Config = {
         box: "4px 4px 0 rgb(255 255 255 / 0.75)",
       },
       dropShadow: {
-        hour: "6px 6px 0 rgb(255 255 255 / 0.25)",
+        hour: "6px 6px 0 rgb(255 255 255 / 0.4)",
       },
     },
   },
