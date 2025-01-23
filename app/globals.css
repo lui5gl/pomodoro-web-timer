@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --shadow-box: 4px 4px 0 rgb(255 255 255 / 0.75);
+
+  --drop-shadow-hour: 6px 6px 0 rgb(255 255 255 / 0.4);
+}
 
 .pomodoro {
   @apply from-red-400 to-red-950;
