@@ -35,20 +35,34 @@ export default function Home() {
 
   useEffect(() => {
     if (isRunning) {
+      const playStarted = new Date().getTime();
+      const endTimer = playStarted + minutes * 60 * 1000 + seconds * 1000;
+
       const interval = setInterval(() => {
-        if (seconds > 0) setSeconds((prev) => prev - 1);
-        else if (minutes > 0) {
-          setMinutes((prev) => prev - 1);
-          setSeconds(59);
-        } else {
+        const now = new Date().getTime();
+        const timeLeft = endTimer - now;
+
+        const newMinutes = Math.floor(
+          (timeLeft % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const newSeconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        setMinutes(newMinutes);
+        setSeconds(newSeconds);
+
+        if (timeLeft <= 0) {
           notificationSoundRef.current?.play();
           setIsRunning(false);
         }
-      }, 1000);
-      document.title = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} - Pomodoro Web Timer`;
+
+        document.title = `${newMinutes.toString().padStart(2, "0")}:${newSeconds
+          .toString()
+          .padStart(2, "0")} - Pomodoro Web Timer`;
+      }, 500);
+
       return () => clearInterval(interval);
     }
-  }, [isRunning, minutes, seconds, notificationSoundRef]);
+  }, [isRunning]);
 
   return (
     <main
