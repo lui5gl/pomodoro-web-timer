@@ -80,8 +80,8 @@ export default function Home() {
           className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
           <Image
-            width={16}
-            height={16}
+            width={18}
+            height={18}
             alt="Toggle start/stop"
             src={`icons/${isRunning ? "pause" : "play"}.svg`}
           />
@@ -93,14 +93,14 @@ export default function Home() {
           <Image
             src="icons/reset.svg"
             alt="Reset timer"
-            width={16}
-            height={16}
+            width={18}
+            height={18}
           />
         </button>
         <select
           ref={selectStateRef}
           onChange={handleChangeState}
-          className="hover:shadow-box relative rounded-xs bg-white/25 px-2 transition-all duration-150 [&>option]:text-neutral-800"
+          className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
         >
           <option value="pomodoro" defaultChecked>
             Pomodoro
