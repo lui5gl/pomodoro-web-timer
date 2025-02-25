@@ -56,15 +56,18 @@ export default function Home() {
           setMinutes(0);
           setSeconds(0);
         }
-
-        document.title = `${newMinutes.toString().padStart(2, "0")}:${newSeconds
-          .toString()
-          .padStart(2, "0")} - Pomodoro Web Timer`;
       }, 500);
 
       return () => clearInterval(interval);
     }
   }, [isRunning]);
+
+  useEffect(() => {
+    const currentMinute = minutes.toString().padStart(2, "0");
+    const currentSecond = seconds.toString().padStart(2, "0");
+
+    document.title = `${currentMinute}:${currentSecond} - Pomodoro Web Timer`;
+  }, [minutes, seconds]);
 
   return (
     <main
