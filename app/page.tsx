@@ -53,6 +53,8 @@ export default function Home() {
         if (timeLeft <= 0) {
           notificationSoundRef.current?.play();
           setIsRunning(false);
+          setMinutes(0);
+          setSeconds(0);
         }
 
         document.title = `${newMinutes.toString().padStart(2, "0")}:${newSeconds
