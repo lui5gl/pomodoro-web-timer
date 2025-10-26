@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const [minutes, setMinutes] = useState<number>(25);
@@ -12,8 +12,21 @@ export default function Home() {
   const colorTheme = useRef<HTMLDivElement>(null);
   const selectStateRef = useRef<HTMLSelectElement>(null);
 
+  const notificationSoundRef = useRef<HTMLAudioElement>(null);
+  const timerIdRef = useRef<number | null>(null);
+  const endTimeRef = useRef<number | null>(null);
+
+  const clearScheduledTick = useCallback(() => {
+    if (timerIdRef.current !== null) {
+      window.clearTimeout(timerIdRef.current);
+      timerIdRef.current = null;
+    }
+  }, []);
+
   function handleChangeState() {
     setIsRunning(false);
+    clearScheduledTick();
+    endTimeRef.current = null;
     document.title = "Pomodoro Web Timer";
 
     colorTheme.current?.classList.remove(
@@ -31,36 +44,56 @@ export default function Home() {
     setSeconds(0);
   }
 
-  const notificationSoundRef = useRef<HTMLAudioElement>(null);
+  const handleToggleRunning = () => {
+    setIsRunning((prev) => {
+      if (prev) {
+        clearScheduledTick();
+        endTimeRef.current = null;
+        return false;
+      }
+
+      const totalSeconds = minutes * 60 + seconds;
+      if (totalSeconds <= 0) return prev;
+
+      endTimeRef.current = Date.now() + totalSeconds * 1000;
+
+      return true;
+    });
+  };
 
   useEffect(() => {
-    if (isRunning) {
-      const playStarted = new Date().getTime();
-      const endTimer = playStarted + minutes * 60 * 1000 + seconds * 1000;
-
-      const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const timeLeft = endTimer - now;
-
-        const newMinutes = Math.floor(
-          (timeLeft % (1000 * 60 * 60)) / (1000 * 60),
-        );
-        const newSeconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-        setMinutes(newMinutes);
-        setSeconds(newSeconds);
-
-        if (timeLeft <= 0) {
-          notificationSoundRef.current?.play();
-          setIsRunning(false);
-          setMinutes(0);
-          setSeconds(0);
-        }
-      }, 500);
-
-      return () => clearInterval(interval);
+    if (!isRunning || endTimeRef.current === null) {
+      clearScheduledTick();
+      return;
     }
-  }, [isRunning]);
+
+    const runTick = () => {
+      if (endTimeRef.current === null) return;
+
+      const now = Date.now();
+      const timeLeft = Math.max(0, endTimeRef.current - now);
+      const totalSeconds = Math.ceil(timeLeft / 1000);
+
+      setMinutes(Math.floor(totalSeconds / 60));
+      setSeconds(totalSeconds % 60);
+
+      if (timeLeft <= 0) {
+        clearScheduledTick();
+        endTimeRef.current = null;
+        notificationSoundRef.current?.play();
+        setIsRunning(false);
+        return;
+      }
+
+      const nextDelay = timeLeft % 1000 || 1000;
+      timerIdRef.current = window.setTimeout(runTick, nextDelay);
+    };
+
+    clearScheduledTick();
+    runTick();
+
+    return clearScheduledTick;
+  }, [clearScheduledTick, isRunning]);
 
   useEffect(() => {
     const currentMinute = minutes.toString().padStart(2, "0");
@@ -81,7 +114,7 @@ export default function Home() {
 
       <section className="flex w-full max-w-xs justify-center gap-2">
         <button
-          onClick={() => setIsRunning(!isRunning)}
+          onClick={handleToggleRunning}
           className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
           <Image
