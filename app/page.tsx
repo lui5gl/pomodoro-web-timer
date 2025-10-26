@@ -156,7 +156,7 @@ export default function Home() {
         </select>
       </section>
 
-      <div className="relative mt-10 h-6 w-full max-w-xs">
+      <div className="relative mt-4 h-6 w-full max-w-xs">
         <p
           aria-hidden={!showTargetTime}
           className={`pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-white/80 transition-opacity duration-500 ease-out ${
