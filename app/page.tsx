@@ -8,6 +8,7 @@ export default function Home() {
   const [seconds, setSeconds] = useState<number>(0);
 
   const [isRunning, setIsRunning] = useState(false);
+  const [targetTime, setTargetTime] = useState<number | null>(null);
 
   const colorTheme = useRef<HTMLDivElement>(null);
   const selectStateRef = useRef<HTMLSelectElement>(null);
@@ -27,6 +28,7 @@ export default function Home() {
     setIsRunning(false);
     clearScheduledTick();
     endTimeRef.current = null;
+    setTargetTime(null);
     document.title = "Pomodoro Web Timer";
 
     colorTheme.current?.classList.remove(
@@ -49,13 +51,16 @@ export default function Home() {
       if (prev) {
         clearScheduledTick();
         endTimeRef.current = null;
+        setTargetTime(null);
         return false;
       }
 
       const totalSeconds = minutes * 60 + seconds;
       if (totalSeconds <= 0) return prev;
 
-      endTimeRef.current = Date.now() + totalSeconds * 1000;
+      const endTime = Date.now() + totalSeconds * 1000;
+      endTimeRef.current = endTime;
+      setTargetTime(endTime);
 
       return true;
     });
@@ -82,6 +87,7 @@ export default function Home() {
         endTimeRef.current = null;
         notificationSoundRef.current?.play();
         setIsRunning(false);
+        setTargetTime(null);
         return;
       }
 
@@ -101,6 +107,8 @@ export default function Home() {
 
     document.title = `${currentMinute}:${currentSecond} - Pomodoro Web Timer`;
   }, [minutes, seconds]);
+
+  const showTargetTime = isRunning && targetTime !== null;
 
   return (
     <main
@@ -147,6 +155,23 @@ export default function Home() {
           <option value="long-break">Long Break</option>
         </select>
       </section>
+
+      <div className="relative mt-10 h-6 w-full max-w-xs">
+        <p
+          aria-hidden={!showTargetTime}
+          className={`pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-white/80 transition-all duration-500 ease-out ${
+            showTargetTime ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+          }`}
+        >
+          La alarma se activará a las{" "}
+          {targetTime &&
+            new Date(targetTime).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })}
+        </p>
+      </div>
 
       <audio ref={notificationSoundRef} src="sounds/alarm.wav" preload="auto" />
     </main>
