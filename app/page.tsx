@@ -1,17 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+
+type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
 
 export default function Home() {
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
+  const [currentState, setCurrentState] = useState<TimerState>("pomodoro");
+  const [customMinutes, setCustomMinutes] = useState<number>(45);
 
   const [isRunning, setIsRunning] = useState(false);
   const [targetTime, setTargetTime] = useState<number | null>(null);
 
   const colorTheme = useRef<HTMLDivElement>(null);
-  const selectStateRef = useRef<HTMLSelectElement>(null);
 
   const notificationSoundRef = useRef<HTMLAudioElement>(null);
   const timerIdRef = useRef<number | null>(null);
@@ -24,27 +27,54 @@ export default function Home() {
     }
   }, []);
 
-  function handleChangeState() {
-    setIsRunning(false);
-    clearScheduledTick();
-    endTimeRef.current = null;
-    setTargetTime(null);
-    document.title = "Pomodoro Web Timer";
+  const applyState = useCallback(
+    (state: TimerState, durationOverride?: number) => {
+      setIsRunning(false);
+      clearScheduledTick();
+      endTimeRef.current = null;
+      setTargetTime(null);
+      document.title = "Pomodoro Web Timer";
 
-    colorTheme.current?.classList.remove(
-      "pomodoro",
-      "short-break",
-      "long-break",
-    );
+      colorTheme.current?.classList.remove(
+        "pomodoro",
+        "short-break",
+        "long-break",
+        "custom",
+      );
 
-    let newState = selectStateRef.current?.value ?? "pomodoro";
-    colorTheme.current?.classList.add(newState);
+      colorTheme.current?.classList.add(state);
 
-    if (newState === "pomodoro") setMinutes(25);
-    else if (newState === "short-break") setMinutes(5);
-    else if (newState === "long-break") setMinutes(15);
-    setSeconds(0);
-  }
+      let newMinutes = 25;
+
+      if (state === "short-break") newMinutes = 5;
+      else if (state === "long-break") newMinutes = 15;
+      else if (state === "custom")
+        newMinutes = Math.max(1, durationOverride ?? customMinutes);
+
+      setMinutes(newMinutes);
+      setSeconds(0);
+    },
+    [clearScheduledTick, customMinutes],
+  );
+
+  const handleResetClick = () => {
+    applyState(currentState);
+  };
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newState = event.target.value as TimerState;
+    setCurrentState(newState);
+    applyState(newState);
+  };
+
+  const handleCustomMinutesChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextValue = Math.max(1, Number(event.target.value) || 1);
+    setCustomMinutes(nextValue);
+
+    if (currentState === "custom") {
+      applyState("custom", nextValue);
+    }
+  };
 
   const handleToggleRunning = () => {
     setIsRunning((prev) => {
@@ -133,7 +163,7 @@ export default function Home() {
           />
         </button>
         <button
-          onClick={handleChangeState}
+          onClick={handleResetClick}
           className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
           <Image
@@ -144,17 +174,31 @@ export default function Home() {
           />
         </button>
         <select
-          ref={selectStateRef}
-          onChange={handleChangeState}
+          value={currentState}
+          onChange={handleSelectChange}
           className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
         >
-          <option value="pomodoro" defaultChecked>
+          <option value="pomodoro">
             Pomodoro
           </option>
           <option value="short-break">Short Break</option>
           <option value="long-break">Long Break</option>
+          <option value="custom">Personalizado</option>
         </select>
       </section>
+
+      {currentState === "custom" && (
+        <label className="mt-4 flex w-full max-w-xs flex-col gap-1 text-sm text-white/80">
+          Minutos personalizados
+          <input
+            type="number"
+            min={1}
+            value={customMinutes}
+            onChange={handleCustomMinutesChange}
+            className="rounded-xs border border-white/30 bg-white/20 px-3 py-2 text-base font-semibold text-white outline-none focus:border-white"
+          />
+        </label>
+      )}
 
       <div className="relative mt-4 h-6 w-full max-w-xs">
         <p
