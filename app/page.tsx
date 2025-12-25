@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
+import { IconPlayerPauseFilled, IconPlayerStop } from "@tabler/icons-react";
+import { IconPlayerPlayFilled } from "@tabler/icons-react";
+import { IconPlayerStopFilled } from "@tabler/icons-react";
+
 type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
 
 export default function Home() {
@@ -155,32 +159,24 @@ export default function Home() {
           onClick={handleToggleRunning}
           className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
-          <Image
-            width={18}
-            height={18}
-            alt="Toggle start/stop"
-            src={`icons/${isRunning ? "pause" : "play"}.svg`}
-          />
+          {isRunning ? (
+            <IconPlayerPauseFilled size={18} />
+          ) : (
+            <IconPlayerPlayFilled size={18} />
+          )}
         </button>
         <button
           onClick={handleResetClick}
           className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
-          <Image
-            src="icons/reset.svg"
-            alt="Reset timer"
-            width={18}
-            height={18}
-          />
+          <IconPlayerStopFilled size={18} />
         </button>
         <select
           value={currentState}
           onChange={handleSelectChange}
           className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
         >
-          <option value="pomodoro">
-            Pomodoro
-          </option>
+          <option value="pomodoro">Pomodoro</option>
           <option value="short-break">Short Break</option>
           <option value="long-break">Long Break</option>
           <option value="custom">Personalizado</option>
