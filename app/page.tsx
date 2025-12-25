@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { IconPlayerPauseFilled, IconPlayerStop } from "@tabler/icons-react";
-import { IconPlayerPlayFilled } from "@tabler/icons-react";
-import { IconPlayerStopFilled } from "@tabler/icons-react";
+import {
+  IconPlayerPauseFilled,
+  IconPlayerPlayFilled,
+  IconPlayerStopFilled,
+} from "@tabler/icons-react";
 
 type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
 
