@@ -7,10 +7,13 @@ import {
   IconPlayerPlayFilled,
   IconPlayerStopFilled,
 } from "@tabler/icons-react";
+import ChangeLang from "./components/changeLang";
+import { useLanguage } from "./context/LanguageContext";
 
 type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
 
 export default function Home() {
+  const { dict, locale } = useLanguage();
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
   const [currentState, setCurrentState] = useState<TimerState>("pomodoro");
@@ -38,7 +41,7 @@ export default function Home() {
       clearScheduledTick();
       endTimeRef.current = null;
       setTargetTime(null);
-      document.title = "Pomodoro Web Timer";
+      document.title = dict.title;
 
       colorTheme.current?.classList.remove(
         "pomodoro",
@@ -140,8 +143,8 @@ export default function Home() {
     const currentMinute = minutes.toString().padStart(2, "0");
     const currentSecond = seconds.toString().padStart(2, "0");
 
-    document.title = `${currentMinute}:${currentSecond} - Pomodoro Web Timer`;
-  }, [minutes, seconds]);
+    document.title = `${currentMinute}:${currentSecond} - ${dict.title}`;
+  }, [minutes, seconds, dict.title]);
 
   const showTargetTime = isRunning && targetTime !== null;
 
@@ -150,6 +153,8 @@ export default function Home() {
       ref={colorTheme}
       className="pomodoro flex min-h-screen flex-col items-center justify-center bg-linear-to-br p-10 text-white select-none"
     >
+      <ChangeLang />
+
       <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
         <span>{minutes.toString().padStart(2, "0")}</span>
         <span>{seconds.toString().padStart(2, "0")}</span>
@@ -177,16 +182,16 @@ export default function Home() {
           onChange={handleSelectChange}
           className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
         >
-          <option value="pomodoro">Pomodoro</option>
-          <option value="short-break">Short Break</option>
-          <option value="long-break">Long Break</option>
-          <option value="custom">Personalizado</option>
+          <option value="pomodoro">{dict.pomodoro}</option>
+          <option value="short-break">{dict.shortBreak}</option>
+          <option value="long-break">{dict.longBreak}</option>
+          <option value="custom">{dict.custom}</option>
         </select>
       </section>
 
       {currentState === "custom" && (
         <label className="mt-4 flex w-full max-w-xs flex-col gap-1 text-sm text-white/80">
-          Minutos personalizados
+          {dict.customMinutes}
           <input
             type="number"
             min={1}
@@ -204,9 +209,9 @@ export default function Home() {
             showTargetTime ? "opacity-100" : "opacity-0"
           }`}
         >
-          La alarma se activará a las{" "}
+          {dict.alarmAt}{" "}
           {targetTime &&
-            new Date(targetTime).toLocaleTimeString([], {
+            new Date(targetTime).toLocaleTimeString(locale, {
               hour: "2-digit",
               minute: "2-digit",
               second: "2-digit",

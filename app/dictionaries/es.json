@@ -1,0 +1,9 @@
+{
+  "pomodoro": "Pomodoro",
+  "shortBreak": "Descanso corto",
+  "longBreak": "Descanso largo",
+  "custom": "Personalizado",
+  "customMinutes": "Minutos personalizados",
+  "alarmAt": "La alarma se activará a las",
+  "title": "Temporizador Pomodoro"
+}

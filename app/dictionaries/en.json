@@ -1,0 +1,9 @@
+{
+  "pomodoro": "Pomodoro",
+  "shortBreak": "Short Break",
+  "longBreak": "Long Break",
+  "custom": "Custom",
+  "customMinutes": "Custom minutes",
+  "alarmAt": "The alarm will go off at",
+  "title": "Pomodoro Web Timer"
+}
