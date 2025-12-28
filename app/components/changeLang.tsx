@@ -13,7 +13,7 @@ export default function ChangeLang() {
     }`;
 
   return (
-    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-lg bg-neutral-200/40 p-1 backdrop-blur-sm">
+    <div className="ml-auto flex w-fit items-center gap-1 rounded-lg bg-neutral-200/40 p-1 backdrop-blur-sm">
       <button
         onClick={() => setLocale("en")}
         className={buttonClass(locale === "en")}

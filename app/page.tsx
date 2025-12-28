@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import ChangeLang from "./components/changeLang";
 import { useLanguage } from "./context/LanguageContext";
+import Explanation from "./components/explanation";
 
 type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
 
@@ -151,74 +152,76 @@ export default function Home() {
   return (
     <main
       ref={colorTheme}
-      className="pomodoro flex min-h-screen flex-col items-center justify-center bg-linear-to-br p-10 text-white select-none"
+      className="pomodoro flex min-h-dvh flex-col justify-between bg-linear-to-br p-4 text-white select-none"
     >
       <ChangeLang />
 
-      <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
-        <span>{minutes.toString().padStart(2, "0")}</span>
-        <span>{seconds.toString().padStart(2, "0")}</span>
+      <section>
+        <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
+          <span>{minutes.toString().padStart(2, "0")}</span>
+          <span>{seconds.toString().padStart(2, "0")}</span>
+        </section>
+
+        <section className="flex w-full max-w-xs justify-center gap-2">
+          <button
+            onClick={handleToggleRunning}
+            className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
+          >
+            {isRunning ? (
+              <IconPlayerPauseFilled size={18} />
+            ) : (
+              <IconPlayerPlayFilled size={18} />
+            )}
+          </button>
+          <button
+            onClick={handleResetClick}
+            className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
+          >
+            <IconPlayerStopFilled size={18} />
+          </button>
+          <select
+            value={currentState}
+            onChange={handleSelectChange}
+            className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
+          >
+            <option value="pomodoro">{dict.pomodoro}</option>
+            <option value="short-break">{dict.shortBreak}</option>
+            <option value="long-break">{dict.longBreak}</option>
+            <option value="custom">{dict.custom}</option>
+          </select>
+        </section>
+
+        {currentState === "custom" && (
+          <label className="mt-4 flex w-full max-w-xs flex-col gap-1 text-sm text-white/80">
+            {dict.customMinutes}
+            <input
+              type="number"
+              min={1}
+              value={customMinutes}
+              onChange={handleCustomMinutesChange}
+              className="rounded-xs border border-white/30 bg-white/20 px-3 py-2 text-base font-semibold text-white outline-none focus:border-white"
+            />
+          </label>
+        )}
+
+        <div className="relative mt-4 h-6 w-full max-w-xs">
+          <p
+            aria-hidden={!showTargetTime}
+            className={`pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-white/80 transition-opacity duration-500 ease-out ${
+              showTargetTime ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {dict.alarmAt}{" "}
+            {targetTime &&
+              new Date(targetTime).toLocaleTimeString(locale, {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+          </p>
+        </div>
       </section>
-
-      <section className="flex w-full max-w-xs justify-center gap-2">
-        <button
-          onClick={handleToggleRunning}
-          className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
-        >
-          {isRunning ? (
-            <IconPlayerPauseFilled size={18} />
-          ) : (
-            <IconPlayerPlayFilled size={18} />
-          )}
-        </button>
-        <button
-          onClick={handleResetClick}
-          className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
-        >
-          <IconPlayerStopFilled size={18} />
-        </button>
-        <select
-          value={currentState}
-          onChange={handleSelectChange}
-          className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
-        >
-          <option value="pomodoro">{dict.pomodoro}</option>
-          <option value="short-break">{dict.shortBreak}</option>
-          <option value="long-break">{dict.longBreak}</option>
-          <option value="custom">{dict.custom}</option>
-        </select>
-      </section>
-
-      {currentState === "custom" && (
-        <label className="mt-4 flex w-full max-w-xs flex-col gap-1 text-sm text-white/80">
-          {dict.customMinutes}
-          <input
-            type="number"
-            min={1}
-            value={customMinutes}
-            onChange={handleCustomMinutesChange}
-            className="rounded-xs border border-white/30 bg-white/20 px-3 py-2 text-base font-semibold text-white outline-none focus:border-white"
-          />
-        </label>
-      )}
-
-      <div className="relative mt-4 h-6 w-full max-w-xs">
-        <p
-          aria-hidden={!showTargetTime}
-          className={`pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-white/80 transition-opacity duration-500 ease-out ${
-            showTargetTime ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {dict.alarmAt}{" "}
-          {targetTime &&
-            new Date(targetTime).toLocaleTimeString(locale, {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            })}
-        </p>
-      </div>
-
+      <Explanation />
       <audio ref={notificationSoundRef} src="sounds/alarm.wav" preload="auto" />
     </main>
   );
