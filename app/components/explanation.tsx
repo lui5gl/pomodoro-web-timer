@@ -1,14 +1,32 @@
+"use client";
+
 import { IconChevronDown } from "@tabler/icons-react";
+import { useState } from "react";
 
 export default function Explanation() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="group hover:shadow-box mt-6 rounded bg-neutral-50/20 p-4 text-center text-sm text-neutral-50 transition-all duration-300 dark:text-neutral-300">
-      <div className="flex cursor-pointer flex-col items-center justify-center">
-        <IconChevronDown className="h-6 w-6 transition-transform duration-300 group-hover:rotate-180" />
-        <span className="mt-1 font-medium group-hover:hidden">Learn more</span>
+    <div
+      className={`mt-6 cursor-pointer rounded-xs p-4 text-center text-sm text-white/90 transition-all duration-300 ${
+        isOpen ? "bg-white/15" : "animate-pulse"
+      }`}
+      onClick={() => setIsOpen(!isOpen)}
+    >
+      <div className="flex flex-col items-center justify-center">
+        <IconChevronDown
+          className={`h-6 w-6 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+        />
+        <span className={`mt-1 font-medium ${isOpen ? "hidden" : ""}`}>
+          Learn more
+        </span>
       </div>
 
-      <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:mt-4 group-hover:max-h-96 group-hover:opacity-100">
+      <div
+        className={`overflow-hidden transition-all duration-500 ${
+          isOpen ? "mt-4 max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
         <p>
           This Pomodoro Timer app is designed to help you boost your
           productivity by breaking your work into focused intervals, typically
