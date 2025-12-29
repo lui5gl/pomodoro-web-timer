@@ -9,7 +9,6 @@ import {
 } from "@tabler/icons-react";
 import ChangeLang from "./components/changeLang";
 import { useLanguage } from "./context/LanguageContext";
-import Explanation from "./components/explanation";
 
 type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
 
@@ -152,7 +151,7 @@ export default function Home() {
   return (
     <main
       ref={colorTheme}
-      className="pomodoro flex min-h-dvh flex-col justify-between bg-linear-to-br p-4 text-white select-none"
+      className="pomodoro flex min-h-dvh flex-col justify-center bg-linear-to-br p-4 text-white select-none"
     >
       <ChangeLang />
 
@@ -162,7 +161,7 @@ export default function Home() {
           <span>{seconds.toString().padStart(2, "0")}</span>
         </section>
 
-        <section className="flex w-full max-w-xs justify-center gap-2 mx-auto">
+        <section className="mx-auto flex w-full max-w-xs justify-center gap-2">
           <button
             onClick={handleToggleRunning}
             className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
@@ -221,7 +220,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-      <Explanation />
       <audio ref={notificationSoundRef} src="sounds/alarm.wav" preload="auto" />
     </main>
   );
