@@ -80,7 +80,7 @@ export default function Explanation() {
   return (
     <>
       <button
-        className="mt-6 rounded px-6 py-2 text-base font-medium transition-all duration-200 hover:bg-white/10 hover:ring hover:ring-white/50"
+        className="mt-6 rounded px-6 py-2 text-base font-medium transition-all duration-200 hover:bg-white/10 hover:ring hover:ring-white/40"
         onClick={() => setOpen(true)}
       >
         <IconChevronDown size={16} className="mr-2 mb-1 inline-block" />
