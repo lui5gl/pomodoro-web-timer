@@ -5,5 +5,10 @@
   "custom": "Personalizado",
   "customMinutes": "Minutos personalizados",
   "alarmAt": "La alarma se activará a las",
-  "title": "Temporizador Pomodoro"
+  "title": "Temporizador Pomodoro",
+  "learnMore": "Conoce más",
+  "explanationTitle": "Temporizador Pomodoro Web",
+  "explanationWhat": "## ¿Qué es Pomodoro Web Timer?\n\nPomodoro Web Timer es una herramienta de productividad que te ayuda a gestionar tu trabajo usando la Técnica Pomodoro.",
+  "explanationOrigin": "## Origen\n\nLa Técnica Pomodoro fue desarrollada por Francesco Cirillo a finales de los años 80. Propone sesiones de trabajo enfocadas de 25 minutos seguidas de descansos cortos para mejorar la concentración y la productividad.",
+  "explanationHow": "## ¿Cómo se usa?\n\n1. Establece tu intervalo de trabajo deseado.\n2. Inicia el temporizador y concéntrate en tu tarea.\n3. Cuando termine el tiempo, toma un descanso corto.\n4. Repite el proceso y toma descansos largos después de varias sesiones.\n\nPuedes personalizar la duración de los intervalos de trabajo y descanso según tu flujo de trabajo."
 }
