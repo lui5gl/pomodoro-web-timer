@@ -162,7 +162,7 @@ export default function Home() {
           <span>{seconds.toString().padStart(2, "0")}</span>
         </section>
 
-        <section className="flex w-full max-w-xs justify-center gap-2">
+        <section className="flex w-full max-w-xs justify-center gap-2 mx-auto">
           <button
             onClick={handleToggleRunning}
             className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
