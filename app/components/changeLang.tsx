@@ -1,31 +1,26 @@
-"use client";
-
 import { useLanguage } from "../context/LanguageContext";
 
-export default function ChangeLang() {
+export default function changeLanguage() {
   const { locale, setLocale } = useLanguage();
 
-  const buttonClass = (active: boolean) =>
-    `rounded px-3 py-1 text-xs font-bold transition-all duration-200 ${
-      active
-        ? "bg-white text-neutral-900 shadow-sm"
-        : "text-neutral-50 hover:bg-white/20"
-    }`;
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLocale(e.target.value as "en" | "es");
+  };
 
   return (
-    <div className="ml-auto flex w-fit items-center gap-1 rounded-lg border border-white/40 bg-neutral-200/20 p-1 backdrop-blur-sm">
-      <button
-        onClick={() => setLocale("en")}
-        className={buttonClass(locale === "en")}
-      >
-        EN
-      </button>
-      <button
-        onClick={() => setLocale("es")}
-        className={buttonClass(locale === "es")}
-      >
-        ES
-      </button>
-    </div>
+    <select
+      name="language"
+      id="language-select"
+      value={locale}
+      onChange={handleLanguageChange}
+      className="ml-auto w-fit rounded border border-white/30 bg-white/10 px-2 py-1 text-white hover:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none"
+    >
+      <option value="en" className="text-black">
+        English
+      </option>
+      <option value="es" className="text-black">
+        Español
+      </option>
+    </select>
   );
 }
