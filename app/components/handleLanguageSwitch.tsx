@@ -29,7 +29,7 @@ export default function handleLanguageSwitch({
   };
 
   const itemClass = (active: boolean) =>
-    `flex items-center justify-center rounded-xs px-2 cursor-pointer transition-all duration-200 ${
+    `flex items-center justify-center rounded-xs px-2 cursor-pointer transition-all duration-200 hover:shadow-box hover:ring-1 hover:ring-white/50 ${
       active ? `bg-white ${getTextColor()}` : "text-white/80 hover:bg-white/10"
     }`;
 
