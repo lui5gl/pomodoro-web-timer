@@ -161,8 +161,8 @@ export default function Home() {
           <span>{seconds.toString().padStart(2, "0")}</span>
         </section>
 
-        <section className="mx-auto w-full max-w-44 space-y-2">
-          <div className="flex flex-row gap-2">
+        <section className="mx-auto w-full max-w-52 space-y-2">
+          <div className="flex w-full flex-row gap-2">
             <button
               onClick={handleToggleRunning}
               className="hover:shadow-box relative flex h-8 w-full items-center justify-center gap-2 rounded-xs bg-white/25 px-4 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
@@ -190,7 +190,7 @@ export default function Home() {
           <select
             value={currentState}
             onChange={handleSelectChange}
-            className="hover:shadow-box relative h-8 w-full rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
+            className="hover:shadow-box relative h-8 w-full rounded-xs bg-white/25 px-4 text-center transition-all duration-150 [&>option]:text-neutral-800"
           >
             <option value="pomodoro">{dict.pomodoro}</option>
             <option value="short-break">{dict.shortBreak}</option>
