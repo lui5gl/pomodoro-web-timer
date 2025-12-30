@@ -153,7 +153,7 @@ export default function Home() {
       ref={colorTheme}
       className="pomodoro flex min-h-dvh flex-col justify-center bg-linear-to-br p-4 text-white select-none"
     >
-      <ChangeLang />
+      <ChangeLang currentState={currentState} />
 
       <section>
         <section className="drop-shadow-hour flex flex-col -space-y-5 text-center text-9xl font-bold">
