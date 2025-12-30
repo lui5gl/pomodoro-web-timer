@@ -1,6 +1,6 @@
 import { useLanguage } from "../context/LanguageContext";
 
-export default function changeLanguage() {
+export default function handleLanguageSwitch() {
   const { locale, setLocale } = useLanguage();
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

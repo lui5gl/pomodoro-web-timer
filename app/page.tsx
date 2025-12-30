@@ -7,7 +7,7 @@ import {
   IconPlayerPlayFilled,
   IconPlayerStopFilled,
 } from "@tabler/icons-react";
-import ChangeLang from "./components/changeLang";
+import ChangeLang from "./components/handleLanguageSwitch";
 import { useLanguage } from "./context/LanguageContext";
 
 type TimerState = "pomodoro" | "short-break" | "long-break" | "custom";
