@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Onest } from "next/font/google";
+import { Chivo_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./context/LanguageContext";
 
-const onest = Onest({ subsets: ["latin"] });
-
+const chivoMono = Chivo_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Pomodoro Web Timer",
   authors: [{ name: "lui5gl", url: "https://github.com/lui5gl" }],
@@ -19,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${onest.className} antialiased`}>
+      <body className={`${chivoMono.className} antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
