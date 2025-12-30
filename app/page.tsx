@@ -161,49 +161,57 @@ export default function Home() {
           <span>{seconds.toString().padStart(2, "0")}</span>
         </section>
 
-        <section className="mx-auto flex w-full max-w-xs justify-center gap-2">
-          <button
-            onClick={handleToggleRunning}
-            className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
-          >
-            {isRunning ? (
-              <IconPlayerPauseFilled size={18} />
-            ) : (
-              <IconPlayerPlayFilled size={18} />
-            )}
-          </button>
-          <button
-            onClick={handleResetClick}
-            className="hover:shadow-box relative flex h-8 w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
-          >
-            <IconPlayerStopFilled size={18} />
-          </button>
+        <section className="mx-auto w-fit space-y-2">
+          <div className="flex flex-row gap-2">
+            <button
+              onClick={handleToggleRunning}
+              className="hover:shadow-box relative flex h-8 w-full items-center justify-center gap-2 rounded-xs bg-white/25 px-4 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
+              aria-label={isRunning ? dict.pause : dict.play}
+            >
+              {isRunning ? (
+                <>
+                  <IconPlayerPauseFilled size={18} />
+                  <span>{dict.pause} </span>
+                </>
+              ) : (
+                <>
+                  <IconPlayerPlayFilled size={18} />
+                  <span>{dict.play}</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={handleResetClick}
+              className="hover:shadow-box relative flex h-8 w-8 min-w-8 items-center justify-center rounded-xs bg-white/25 transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none"
+            >
+              <IconPlayerStopFilled size={18} />
+            </button>
+          </div>
           <select
             value={currentState}
             onChange={handleSelectChange}
-            className="hover:shadow-box relative rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
+            className="hover:shadow-box relative h-8 w-full rounded-xs bg-white/25 px-4 transition-all duration-150 [&>option]:text-neutral-800"
           >
             <option value="pomodoro">{dict.pomodoro}</option>
             <option value="short-break">{dict.shortBreak}</option>
             <option value="long-break">{dict.longBreak}</option>
             <option value="custom">{dict.custom}</option>
           </select>
+          {currentState === "custom" && (
+            <label className="flex w-full flex-col gap-1 text-sm text-white/80">
+              {dict.customMinutes}
+              <input
+                type="number"
+                min={1}
+                value={customMinutes}
+                onChange={handleCustomMinutesChange}
+                className="rounded-xs border border-white/30 bg-white/20 px-3 py-2 text-base font-semibold text-white outline-none focus:border-white"
+              />
+            </label>
+          )}
         </section>
 
-        {currentState === "custom" && (
-          <label className="mt-4 flex w-full max-w-xs flex-col gap-1 text-sm text-white/80">
-            {dict.customMinutes}
-            <input
-              type="number"
-              min={1}
-              value={customMinutes}
-              onChange={handleCustomMinutesChange}
-              className="rounded-xs border border-white/30 bg-white/20 px-3 py-2 text-base font-semibold text-white outline-none focus:border-white"
-            />
-          </label>
-        )}
-
-        <div className="relative mt-4 h-6 w-full max-w-xs">
+        <div className="fixed bottom-4 left-1/2 animate-pulse text-nowrap">
           <p
             aria-hidden={!showTargetTime}
             className={`pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-white/80 transition-opacity duration-500 ease-out ${

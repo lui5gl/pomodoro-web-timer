@@ -7,6 +7,8 @@
   "alarmAt": "La alarma se activará a las",
   "title": "Temporizador Pomodoro",
   "learnMore": "Conoce más",
+  "pause": "Pausar",
+  "play": "Reproducir",
   "explanationTitle": "Temporizador Pomodoro Web",
   "explanationWhat": "## ¿Qué es Pomodoro Web Timer?\n\nPomodoro Web Timer es una herramienta de productividad que te ayuda a gestionar tu trabajo usando la Técnica Pomodoro.",
   "explanationOrigin": "## Origen\n\nLa Técnica Pomodoro fue desarrollada por Francesco Cirillo a finales de los años 80. Propone sesiones de trabajo enfocadas de 25 minutos seguidas de descansos cortos para mejorar la concentración y la productividad.",
