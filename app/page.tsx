@@ -161,7 +161,7 @@ export default function Home() {
           <span>{seconds.toString().padStart(2, "0")}</span>
         </section>
 
-        <section className="mx-auto w-fit space-y-2">
+        <section className="mx-auto w-full max-w-44 space-y-2">
           <div className="flex flex-row gap-2">
             <button
               onClick={handleToggleRunning}
